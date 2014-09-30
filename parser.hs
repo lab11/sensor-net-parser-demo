@@ -1,5 +1,10 @@
-
 {-# Language TemplateHaskell, QuasiQuotes, FlexibleContexts #-}
+
+{- To install the required package, and compile this app : 
+ - Install the Haskell Platform : https://www.haskell.org/platform/
+ - Get Peggy : $ cabal install peggy 
+ - Compile this app : ghc parser.hs
+ -}
 
 import Text.Peggy
 
