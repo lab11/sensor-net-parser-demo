@@ -1,0 +1,7 @@
+
+standard_gather := GATHER {
+    SAVE time() AS time,
+    SAVE node_id() AS node, 
+    SAVE temprature AS temprature
+    } INTO BASE_TABLE_01 ; 
+

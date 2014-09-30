@@ -162,7 +162,7 @@ binop ::: BinaryOp = '&&'  { BAnd }
                    / 'NOT' 'EQUAL' { BNeq }
 
 
-interval ::: Interval = timesec+   { Time $ foldr (+) 0 $1  }
+interval ::: Interval = timesec+   { Time $ foldl (+) 0 $1  }
 
 timesec ::: Int = intgr 'min''s'?  { 60 * $1 } 
                 / intgr 'sec''s'?  { $1 }
@@ -171,7 +171,7 @@ timesec ::: Int = intgr 'min''s'?  { 60 * $1 }
                 / intgr 'day''s'?  { 60 * 60 * 24 * $1 } 
 
 assignment ::: Assignment = ident ':=' expression ';' { Assignment $1 (Easgn $2)}
-                          / ident ':=' action ';'     { Assignment $1 (Aasgn $2)}
+                          / ident ':=' action      { Assignment $1 (Aasgn $2)}
                           
 
 |]
