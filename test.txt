@@ -1,0 +1,14 @@
+
+
+
+ON( EVERY 5 mins ) {
+    IF ( humidity() > 90) { 
+        standard_gather_action;
+    }
+}
+
+
+ON ( 5 mins AFTER (( flow_rate() > 90 ) BEGINS WHILE CHECKING EVERY 1 min )) {
+    EXECUTE gather_sample(); 
+}
+

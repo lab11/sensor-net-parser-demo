@@ -1,7 +1,58 @@
+test_assn_time_1 :=  11 min;
+test_assn_time_2 := 10 secs ;
+test_assn_time_3 := 10 min 10 secs ;
+test_assn_time_4 := 3 days 4 hours 10 min 10 secs ;
 
-standard_gather := GATHER {
-    SAVE time() AS time,
-    SAVE node_id() AS node, 
-    SAVE temprature AS temprature
-    } INTO BASE_TABLE_01 ; 
+test_assn_float := 134.56     ;
+
+test_assn_int := 123412351243 ;
+
+test_assn_str := "wibbly wobbly timey wimey" ;
+
+test_assn_bool_1 := True ;
+test_assn_bool_2 := False ; 
+
+test_assn_call := call(1,2,asdlfjdslk);
+
+test_assn_unop := NOT True; 
+
+test_assn_binop_1 := ( 3 + 43.3 ) ; 
+test_assn_binop_2 := ( True AND is_on(23) ) ;
+
+test_assn_expr := test_assn_binop_2;
+
+test_assn_parens := (12.3);
+
+test_assn_gather := GATHER{
+        SAVE node_id() AS id,
+        SAVE temp() AS temprature
+        } INTO TABLE_1;
+
+test_assn_send := SEND "test message" ;
+
+test_assn_exec := EXECUTE test_call(1,2,3,4);
+
+test_assn_if := IF ( test_call(2) < 30) {
+    GATHER { 
+        SAVE node_id() AS id,
+        SAVE humidity() AS humidity, 
+        SAVE something_else() AS something_else
+    } INTO TABLE_SOMETHING ; 
+    SEND "got data?"; 
+};
+
+ON( EVERY 5 mins ) {
+    IF ( humidity() > 90) { 
+        standard_gather_action;
+        SEND "It's Raining";
+    }
+}
+
+ON ( EVERY 1 hour ) { 
+    standard_gather_action; 
+}
+
+ON ( 5 mins AFTER (( flow_rate() > 90 ) BEGINS WHILE CHECKING EVERY 1 min )) {
+    EXECUTE gather_sample(); 
+}
 
