@@ -1,12 +1,20 @@
 
-
-
 ON( EVERY 5 mins ) {
-    IF ( humidity() > 90) { 
-        standard_gather_action;
-    }
+    GATHER {
+        SAVE node_id() AS nodeid
+    } INTO TBL; 
+    SEND "message";
+    EXECUTE led_on();
+    thing := 0;
+    some_other_thing;
+    IF( thing ) {
+
+    };
 }
 
+ON( EVERY 1 day ){
+
+} 
 
 ON ( 5 mins AFTER (( flow_rate() > 90 ) BEGINS WHILE CHECKING EVERY 1 min )) {
     EXECUTE gather_sample(); 

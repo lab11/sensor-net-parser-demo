@@ -1,10 +1,15 @@
 {-# Language TemplateHaskell, QuasiQuotes, FlexibleContexts #-}
 
-{- To install the required package, and compile this app : 
- - Install the Haskell Platform : https://www.haskell.org/platform/
- - Get Peggy : $ cabal install peggy 
- - Get Pretty-Show : $ cabal install pretty-show
- - Compile this app : ghc parser.hs
+{- to install the required package, and compile this app : 
+ - install the haskell platform : https://www.haskell.org/platform/
+ -      on ubuntu the following might work? 
+ -      > apt-get install haskell-platform
+ - get peggy : 
+ -      > cabal install peggy 
+ - get pretty-show : 
+ -      > cabal install pretty-show
+ - compile this app : 
+ -      > ghc parser.hs
  -}
 
 import Text.Peggy
@@ -137,7 +142,7 @@ action :: Action = 'GATHER' space* '{' space* records space* '}' space* 'INTO' s
                     { Gather $3 $7 } 
                  / 'SEND' strn                          { Message $1 }
                  / 'EXECUTE' call                           { Execute $1 }
-                 / 'IF' space* expression space* '{' space* actionc* space* '}' { If $2 $5 } 
+                 / space* 'IF' space* expression space* '{' space* actionc* space* '}' { If $3 $6 } 
                  / assignment                                   { Assign $1 }
                  / ident                                    { AIdent $1 }
 
@@ -192,8 +197,8 @@ timesec :: Int = intgr 'min''s'?  { 60 * $1 }
 
 assignmentc :: Assignment = assignment space* ';' space* { $1 }
 
-assignment :: Assignment = ident ':=' space* expression  { Assignment $1 (Easgn $3)}
-                         / ident ':=' space* action      { Assignment $1 (Aasgn $3)}
+assignment :: Assignment = ident space* ':=' space* expression  { Assignment $1 (Easgn $4)}
+                         / ident space* ':=' space* action      { Assignment $1 (Aasgn $4)}
                           
 
 |]
@@ -209,6 +214,17 @@ assignment :: Assignment = ident ':=' space* expression  { Assignment $1 (Easgn 
  - Float handling is not very good;
  -
  - there's no actual tokenization step so we've got 'space*' tokens *everywhere*
+ -
+ - Actions *all* require ';' behind them, even IF based blocks. 
+ -
+ - We shoudl be able to infer types for all Call statements and execution blocks
+ - this doesn't do that. 
+ -
+ - Infix Binops shouldn't need parens, they are manditory at the moment, and 
+ - therefor IF , ON, and other blocks that can take events or expressions don't 
+ - manditorily need parens as a hack to prevent duplication of parens. 
+ -
+ - Seriously, this parser needs a seperate tokenization and interpretation step. 
  -}
 
 main :: IO()

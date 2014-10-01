@@ -17,4 +17,4 @@ cabal-version:       >=1.8
 executable Parser
   main-is:             parser.hs             
   -- other-modules:       
-  build-depends:       base ==4.6.*, peggy
+  build-depends:       base ==4.6.*, peggy, pretty-show
