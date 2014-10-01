@@ -144,7 +144,7 @@ action :: Action = 'GATHER' space* '{' space* records space* '}' space* 'INTO' s
                  / 'EXECUTE' call                           { Execute $1 }
                  / space* 'IF' space* expression space* '{' space* actionc* space* '}' { If $3 $6 } 
                  / assignment                                   { Assign $1 }
-                 / ident                                    { AIdent $1 }
+                 / 'Do' space* ident                                    { AIdent $2 }
 
 records :: [Record] = record space* ',' space* records { $1 : $4 }
                     / record { [$1] } 

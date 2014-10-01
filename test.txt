@@ -6,7 +6,7 @@ ON( EVERY 5 mins ) {
     SEND "message";
     EXECUTE led_on();
     thing := 0;
-    some_other_thing;
+    Do some_other_thing;
     IF( thing ) {
 
     };
